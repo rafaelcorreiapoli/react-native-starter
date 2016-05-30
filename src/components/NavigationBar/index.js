@@ -2,6 +2,6 @@
 
 export const styles = {
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#3F51B5'
   },
 }

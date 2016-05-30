@@ -16,6 +16,7 @@ const getSceneStyle = () => ({
 export default (): Element => (
   <Router
     scenes={scenes}
+    hideNavBar={true}
     getSceneStyle={getSceneStyle}
   />
 )

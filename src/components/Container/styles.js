@@ -8,8 +8,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
-    backgroundColor: DEFAULT_BACKGROUND_COLOR,
+    //paddingTop: 44,
+
+    backgroundColor: DEFAULT_BACKGROUND_COLOR
+    //backgroundColor: 'blue'
   },
 })
 
