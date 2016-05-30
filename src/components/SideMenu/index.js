@@ -1,8 +1,11 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Image} from 'react-native'
+import { View, Text, StyleSheet, Image,TouchableHighlight} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
+import { MKButton } from 'react-native-material-kit';
+import { Actions } from 'react-native-router-flux';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -58,7 +61,45 @@ const styles = StyleSheet.create({
   }
 })
 
+class SideMenuItem extends Component {
+  handleClick() {
+    this.props.handleClick(this.props.action);
+  }
+  render() {
+    const active = this.props.active;
+    const FlatButton = MKButton.flatButton()
+      .build();
+
+    const Wrapper = active ? View : FlatButton;
+
+    return (
+      <Wrapper style={[styles.item, active && styles.itemSelected]} onPress={this.handleClick.bind(this)}>
+        <Icon size={20} name={this.props.icon} style={[styles.itemIcon, active && styles.itemIconSelected]} />
+        <Text style={[styles.itemLabel, active && styles.itemLabelSelected]}>
+          {this.props.label} {active ? "a" : "b"}
+        </Text>
+      </Wrapper>
+
+    )
+  }
+}
 class SideMenu extends Component {
+  static contextTypes = {
+    drawer: React.PropTypes.object
+  };
+
+  handleClick(action) {
+    action()
+    this.context.drawer.close();
+  }
+  renderItems() {
+    const activeItem = this.props.activeItem;
+
+    return this.props.items.map((item, i) => {
+      return <SideMenuItem key={i} {...item} handleClick={this.handleClick.bind(this)} active={i === activeItem}/>
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -67,24 +108,7 @@ class SideMenu extends Component {
           <Text style={styles.name}>Rafael R. Correia</Text>
           <Text style={styles.email}>rafael.correia.poli@gmail.com</Text>
         </Image>
-        <View style={[styles.item,styles.itemSelected]}>
-          <Icon size={20} name="md-heart" style={[styles.itemIcon,styles.itemIconSelected]} />
-          <Text style={[styles.itemLabel,styles.itemLabelSelected]}>
-            Favorites
-          </Text>
-        </View>
-        <View style={styles.item}>
-          <Icon size={20} name="md-pricetags" style={styles.itemIcon} />
-          <Text style={styles.itemLabel}>
-            Tags
-          </Text>
-        </View>
-        <View style={styles.item}>
-          <Icon size={20} name="md-cash" style={styles.itemIcon} />
-          <Text style={styles.itemLabel}>
-            My Money
-          </Text>
-        </View>
+        {this.renderItems()}
       </View>
 
     )

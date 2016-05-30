@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { Element } from 'react'
+import React, { Element, Component } from 'react'
 import { StyleSheet } from 'react-native'
 import { Router } from 'react-native-router-flux'
 import scenes from './app'
@@ -29,9 +29,19 @@ const getSceneStyle = () => ({
 //   }
 // })
 
-export default (): Element => (
-  <Router
-    scenes={scenes}
-    getSceneStyle={getSceneStyle}
-    />
-)
+
+export default class RouterRoot extends Component {
+  handleDispatch(nav) {
+    console.log(JSON.stringify(nav.type));
+    //console.log(nav.scene.sceneKey);
+  }
+  render() {
+    return (
+    <Router
+      scenes={scenes}
+      dispatch={this.handleDispatch}
+      getSceneStyle={getSceneStyle}
+      />
+    )
+  }
+}

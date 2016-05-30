@@ -63,13 +63,40 @@ const sty = {
     opacity: 0
   }
 }
+
 class DrawerScene extends Component {
+  getItems() {
+    return [
+      {
+        label: 'Pizza\'s',
+        icon: 'md-pizza',
+        action: Actions.restaurantes
+      },
+      {
+        label: 'Beer\'s',
+        icon: 'md-beer',
+        action: Actions.counter
+      },
+      {
+        label: 'Alarm',
+        icon: 'md-alarm',
+        action: Actions.welcome
+      },
+      {
+        label: 'Money',
+        icon: 'md-cash',
+        action: Actions.restaurantes
+      }
+    ]
+
+  }
   render(){
     const children = this.props.navigationState.children;
+
     return (
       <Drawer
         type="overlay"
-        content={<SideMenu />}
+        content={<SideMenu items={this.getItems()} activeItem={1} />}
         ref="drawer"
         styles={sty}
         closedDrawerOffset={-3}
@@ -93,9 +120,9 @@ const scenes = Actions.create(
   <Scene key="drawer" component={DrawerScene}>
     <Scene key="root" hideNavBar={true}>
       <Scene key="login" component={LoginContainer} title="Login"/>
-      <Scene key="welcome" component={LauchContainer} title="Welcome" />
+      <Scene key="welcome" component={LauchContainer} title="Welcome" navBar={Nav} hideNavBar={false}/>
       <Scene key="counter" component={CounterContainer} title="Counter" navBar={Nav} hideNavBar={false}/>
-      <Scene key="restaurantes" component={RestaurantesContainer} title="Restaurantes" />
+      <Scene key="restaurantes" component={RestaurantesContainer} title="Restaurantes" navBar={Nav} hideNavBar={false}/>
     </Scene>
   </Scene>
 )
