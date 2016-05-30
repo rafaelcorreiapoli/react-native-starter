@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { MKButton, MKColor } from 'react-native-material-kit';
 import { connect } from 'react-redux';
 import SideMenu from '@components/SideMenu';
-
+import menuItems from '@utils/menu_items'
 
 const FlatButton = MKButton.flatButton()
   .build();
@@ -65,36 +65,9 @@ const sty = {
 }
 
 class DrawerScene extends Component {
-  static items = [
-    {
-      label: 'Pizza\'s',
-      icon: 'md-pizza',
-      action: Actions.restaurantes,
-      sceneKey: 'restaurantes'
-    },
-    {
-      label: 'Beer\'s',
-      icon: 'md-beer',
-      action: Actions.counter,
-      sceneKey: 'counter'
-    },
-    {
-      label: 'Alarm',
-      icon: 'md-alarm',
-      action: Actions.welcome,
-      sceneKey: 'welcome'
-    },
-    {
-      label: 'Money',
-      icon: 'md-cash',
-      action: Actions.restaurantes,
-      sceneKey: 'restaurantes'
-    }
-  ]
-
   getActiveRouteKey() {
     const activeScene = this.props.routes.scene.sceneKey;
-    items = DrawerScene.items;
+    const items = this.props.menuItems;
     for (i = 0; i < items.length; i++) {
       if (items[i].sceneKey === activeScene) {
           return i;
@@ -108,7 +81,7 @@ class DrawerScene extends Component {
     return (
       <Drawer
         type="overlay"
-        content={<SideMenu items={DrawerScene.items} activeItem={activeItem} />}
+        content={<SideMenu items={this.props.menuItems} activeItem={activeItem} />}
         ref="drawer"
         styles={sty}
         closedDrawerOffset={-3}
@@ -132,7 +105,7 @@ class DrawerScene extends Component {
 const ConnectedDrawerScene =  connect(({routes}) => ({routes}))(DrawerScene);
 
 const scenes = Actions.create(
-  <Scene key="drawer" component={ConnectedDrawerScene}>
+  <Scene key="drawer" component={ConnectedDrawerScene} menuItems={menuItems}>
     <Scene key="root" hideNavBar={true}>
       <Scene key="login" component={LoginContainer} title="Login"/>
       <Scene key="welcome" component={LauchContainer} title="Welcome" navBar={Nav} hideNavBar={false}/>

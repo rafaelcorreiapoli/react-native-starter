@@ -89,7 +89,7 @@ class SideMenu extends Component {
   };
 
   handleClick(action) {
-    action()
+    Actions[action]();
     this.context.drawer.close();
   }
   renderItems() {
