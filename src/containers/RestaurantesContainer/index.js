@@ -9,6 +9,13 @@ import Meteor, { createContainer } from 'react-native-meteor';
 //  Meteor.connect('http://192.168.1.32:3000/websocket');
 
 class RestaurantesContainer extends Component<void, void, void> {
+  constructor(props) {
+    super(props)
+    
+    console.log("restaurantes container---")
+    console.log(props);
+    console.log('--------------')
+  }
   render() {
     return (
       <Container>

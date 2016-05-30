@@ -4,7 +4,7 @@ import React, { Element, Component } from 'react'
 import { StyleSheet } from 'react-native'
 import { Router } from 'react-native-router-flux'
 import scenes from './app'
-
+import { connect } from 'react-redux';
 const getSceneStyle = () => ({
   flex: 1,
   backgroundColor: '#fff',
@@ -29,17 +29,29 @@ const getSceneStyle = () => ({
 //   }
 // })
 
+const RouterWithRedux = connect()(Router);
 
 export default class RouterRoot extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentRoute: 'teste'
+    }
+  }
   handleDispatch(nav) {
-    console.log(JSON.stringify(nav.type));
+    //console.log(nav);
+    if (nav.type === 'push') {
+        this.setState({
+          currentRoute: nav.key
+        })
+    }
     //console.log(nav.scene.sceneKey);
   }
   render() {
+    //console.log(this.state);
     return (
-    <Router
+    <RouterWithRedux
       scenes={scenes}
-      dispatch={this.handleDispatch}
       getSceneStyle={getSceneStyle}
       />
     )

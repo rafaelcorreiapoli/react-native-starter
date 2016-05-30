@@ -12,7 +12,7 @@ import LoginContainer from '@containers/LoginContainer'
 import NavigationBar from 'react-native-navbar'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { MKButton, MKColor } from 'react-native-material-kit';
-
+import { connect } from 'react-redux';
 import SideMenu from '@components/SideMenu';
 
 
@@ -65,38 +65,50 @@ const sty = {
 }
 
 class DrawerScene extends Component {
-  getItems() {
-    return [
-      {
-        label: 'Pizza\'s',
-        icon: 'md-pizza',
-        action: Actions.restaurantes
-      },
-      {
-        label: 'Beer\'s',
-        icon: 'md-beer',
-        action: Actions.counter
-      },
-      {
-        label: 'Alarm',
-        icon: 'md-alarm',
-        action: Actions.welcome
-      },
-      {
-        label: 'Money',
-        icon: 'md-cash',
-        action: Actions.restaurantes
-      }
-    ]
+  static items = [
+    {
+      label: 'Pizza\'s',
+      icon: 'md-pizza',
+      action: Actions.restaurantes,
+      sceneKey: 'restaurantes'
+    },
+    {
+      label: 'Beer\'s',
+      icon: 'md-beer',
+      action: Actions.counter,
+      sceneKey: 'counter'
+    },
+    {
+      label: 'Alarm',
+      icon: 'md-alarm',
+      action: Actions.welcome,
+      sceneKey: 'welcome'
+    },
+    {
+      label: 'Money',
+      icon: 'md-cash',
+      action: Actions.restaurantes,
+      sceneKey: 'restaurantes'
+    }
+  ]
 
+  getActiveRouteKey() {
+    const activeScene = this.props.routes.scene.sceneKey;
+    items = DrawerScene.items;
+    for (i = 0; i < items.length; i++) {
+      if (items[i].sceneKey === activeScene) {
+          return i;
+      }
+    }
+    return -1;
   }
   render(){
     const children = this.props.navigationState.children;
-
+    const activeItem = this.getActiveRouteKey();
     return (
       <Drawer
         type="overlay"
-        content={<SideMenu items={this.getItems()} activeItem={1} />}
+        content={<SideMenu items={DrawerScene.items} activeItem={activeItem} />}
         ref="drawer"
         styles={sty}
         closedDrawerOffset={-3}
@@ -116,8 +128,11 @@ class DrawerScene extends Component {
   }
 }
 
+
+const ConnectedDrawerScene =  connect(({routes}) => ({routes}))(DrawerScene);
+
 const scenes = Actions.create(
-  <Scene key="drawer" component={DrawerScene}>
+  <Scene key="drawer" component={ConnectedDrawerScene}>
     <Scene key="root" hideNavBar={true}>
       <Scene key="login" component={LoginContainer} title="Login"/>
       <Scene key="welcome" component={LauchContainer} title="Welcome" navBar={Nav} hideNavBar={false}/>
