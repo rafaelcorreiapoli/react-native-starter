@@ -1,6 +1,7 @@
 /* @flow */
 
 import React, { Element } from 'react'
+import { StyleSheet } from 'react-native'
 import { Router } from 'react-native-router-flux'
 import scenes from './app'
 
@@ -13,10 +14,24 @@ const getSceneStyle = () => ({
   shadowRadius: 3,
 })
 
+// const styles = StyleSheet.create({
+//   navBar: {
+//     backgroundColor:'#000',
+//   },
+//   navBarTitle:{
+//     color:'#FFF'
+//   },
+//   barButtonTextStyle:{
+//     color:'#0000FF'
+//   },
+//   barButtonIconStyle:{
+//     tintColor:'rgb(255,255,255)'
+//   }
+// })
+
 export default (): Element => (
   <Router
     scenes={scenes}
-    hideNavBar={true}
     getSceneStyle={getSceneStyle}
-  />
+    />
 )

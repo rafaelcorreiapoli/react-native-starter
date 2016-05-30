@@ -5,6 +5,7 @@ import Container from '@components/Container'
 import Title from '@components/Title'
 import Link from '@components/Link'
 import Icon from 'react-native-vector-icons/Ionicons';
+import NavigationBar from 'react-native-navbar';
 const MK = require('react-native-material-kit');
 const {
   MKButton,
@@ -174,7 +175,7 @@ const SignInButton = MKButton.coloredButton()
 .withStyle(styles.signInButton)
 .withOnPress(
   () => {
-  console.log("Hi, it's a colored button!");
+  Actions.counter()
 })
 .build();
 
@@ -206,7 +207,26 @@ const GooglePlusButton = MKButton.coloredButton()
 
 
 class LoginContainer extends Component<void, void, void> {
+  // static renderNavigationBar(props) {
+  //   const rightButtonConfig = {
+  //     title: 'Next',
+  //     handler: () => alert('hello!'),
+  //   };
+  //
+  //   const titleConfig = {
+  //     title: 'Hello, world',
+  //   };
+  //
+  //   return (
+  //       <View style={{flex: 1}}>
+  //         <NavigationBar
+  //           title={titleConfig}
+  //           rightButton={rightButtonConfig} />
+  //       </View>
+  //   );
+  // }
   render() {
+
     return (
       <Container>
         <View style={styles.titleContainer}>
