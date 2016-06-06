@@ -76,7 +76,7 @@ class SideMenuItem extends Component {
       <Wrapper style={[styles.item, active && styles.itemSelected]} onPress={this.handleClick.bind(this)}>
         <Icon size={20} name={this.props.icon} style={[styles.itemIcon, active && styles.itemIconSelected]} />
         <Text style={[styles.itemLabel, active && styles.itemLabelSelected]}>
-          {this.props.label} {active ? "a" : "b"}
+          {this.props.label}
         </Text>
       </Wrapper>
 

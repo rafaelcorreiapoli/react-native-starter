@@ -175,7 +175,7 @@ const SignInButton = MKButton.coloredButton()
 .withStyle(styles.signInButton)
 .withOnPress(
   () => {
-  Actions.counter()
+  Actions.restaurantes()
 })
 .build();
 

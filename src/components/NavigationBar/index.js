@@ -39,8 +39,10 @@ class NavBar extends Component {
     drawer.open()
   }
   render() {
+    const { title } = this.props;
+
     const titleConfig = {
-      title: 'Hello, world',
+      title,
       tintColor: 'white'
     };
 

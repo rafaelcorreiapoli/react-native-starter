@@ -1,20 +1,17 @@
 {
-  "name": "react-native-redux-starter-kit",
+  "name": "react-native-starter",
   "version": "1.0.0",
   "description": "Get started with React Native and Redux.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LeoLeBras/react-native-redux-starter-kit"
+    "url": "https://github.com/rafaelcorreiapoli/react-native-starter"
   },
-  "author": "Léo LE BRAS <leo.lebrasf@gmail.com> (http://github.com/LeoLeBras)",
+  "author": "Rafael Ribeiro Correia (http://github.com/rafaelcorreiapoli)",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/LeoLeBras/react-native-redux-starter-kit/issues"
-  },
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh",
     "build-ios": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.ios.js --bundle-output iOS/main.jsbundle --platform 'ios' --assets-dest ./  --dev false --reset-cache",
-    "build-android": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.android.js --bundle-output iOS/main.jsbundle --platform 'android' --assets-dest ./  --dev false --reset-cache",
+    "build-android": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.android.js --bundle-output android/main.jsbundle --platform 'android' --assets-dest ./  --dev false --reset-cache",
     "reactotron": "node_modules/.bin/reactotron",
     "android-setup-port": "adb reverse tcp:8081 tcp:8080",
     "flow:check": "node bin/flow-check"
@@ -31,6 +28,7 @@
     "react-native": "^0.26.1",
     "react-native-drawer": "^2.2.3",
     "react-native-icons": "^0.7.1",
+    "react-native-material-kit": "^0.3.2",
     "react-native-meteor": "^1.0.0-rc7",
     "react-native-navbar": "^1.5.0",
     "react-native-router-flux": "^3.26.0",

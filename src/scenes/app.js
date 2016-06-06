@@ -2,10 +2,12 @@
 
 import React, { Component } from 'react'
 import { Actions, Scene } from 'react-native-router-flux'
-import LauchContainer from '@containers/LauchContainer'
-import CounterContainer from '@containers/CounterContainer'
-import RestaurantesContainer from '@containers/RestaurantesContainer'
 import LoginContainer from '@containers/LoginContainer'
+import RestaurantesContainer from '@containers/RestaurantesContainer'
+import PromocoesContainer from '@containers/PromocoesContainer';
+import VouchersContainer from '@containers/VouchersContainer';
+import PerfilContainer from '@containers/PerfilContainer';
+
 import NavigationBar from '@components/NavigationBar';
 import DrawerContainer from '@containers/DrawerContainer';
 
@@ -17,9 +19,10 @@ const scenes = Actions.create(
   <Scene key="drawer" component={DrawerContainer} menuItems={menuItems}>
     <Scene key="root" hideNavBar={true}>
       <Scene key="login" component={LoginContainer} title="Login"/>
-      <Scene key="welcome" component={LauchContainer} title="Welcome" navBar={NavigationBar} hideNavBar={false}/>
-      <Scene key="counter" component={CounterContainer} title="Counter" navBar={NavigationBar} hideNavBar={false}/>
       <Scene key="restaurantes" component={RestaurantesContainer} title="Restaurantes" navBar={NavigationBar} hideNavBar={false}/>
+      <Scene key="promocoes" component={PromocoesContainer} title="Promoções" navBar={NavigationBar} hideNavBar={false}/>
+      <Scene key="vouchers" component={VouchersContainer} title="Vouchers" navBar={NavigationBar} hideNavBar={false}/>
+      <Scene key="perfil" component={PerfilContainer} title="Perfil" navBar={NavigationBar} hideNavBar={false}/>
     </Scene>
   </Scene>
 )
