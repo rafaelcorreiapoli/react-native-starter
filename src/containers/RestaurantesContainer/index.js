@@ -6,6 +6,7 @@ import { Actions } from 'react-native-router-flux'
 import Container from '@components/Container'
 import Title from '@components/Title'
 import Restaurante from '@components/Restaurante';
+import { v4 } from 'node-uuid';
 
 const styles = StyleSheet.create({
   container: {
@@ -72,9 +73,9 @@ class RestaurantesContainer extends Component<void, void, void> {
       <Restaurante key={restaurante.id} {...restaurante} />
     )
   }
-  renderSeparator() {
+  renderSeparator(sectionID, rowID) {
     return (
-      <View style={{height: 1, backgroundColor: '#dedede'}} />
+      <View key={v4()} style={{height: 1, backgroundColor: '#dedede'}} />
     )
   }
   render() {
