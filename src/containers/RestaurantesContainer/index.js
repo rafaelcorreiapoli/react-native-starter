@@ -7,6 +7,9 @@ import Container from '@components/Container'
 import Title from '@components/Title'
 import Restaurante from '@components/Restaurante';
 import { v4 } from 'node-uuid';
+import Meteor, { createContainer } from 'react-native-meteor';
+
+Meteor.connect('ws://192.168.1.32:3000/websocket')
 
 const styles = StyleSheet.create({
   container: {
@@ -18,6 +21,9 @@ const styles = StyleSheet.create({
 class RestaurantesContainer extends Component<void, void, void> {
   constructor(props) {
     super(props)
+
+    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
 
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -79,10 +85,14 @@ class RestaurantesContainer extends Component<void, void, void> {
     )
   }
   render() {
+    const { restaurantes } = this.props;
+
+    const dataSource = this.ds.cloneWithRows(restaurantes);
+
     return (
       <View style={styles.container}>
         <ListView
-          dataSource={this.state.dataSource}
+          dataSource={dataSource}
           renderRow={this.renderRestaurante}
           renderSeparator={this.renderSeparator}
           />
@@ -91,5 +101,11 @@ class RestaurantesContainer extends Component<void, void, void> {
   }
 }
 
+export default createContainer(params=>{
+  const handle = Meteor.subscribe('restaurantes');
 
-export default RestaurantesContainer
+  return {
+    restaurantesReady: handle.ready(),
+    restaurantes: Meteor.collection('restaurantes').find()
+  };
+}, RestaurantesContainer)

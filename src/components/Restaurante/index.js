@@ -113,7 +113,7 @@ const Restaurante = ({
   minTime,
   maxTime,
   distance,
-  uri,
+  logoUrl,
   name,
   category,
   rating
@@ -124,7 +124,7 @@ const Restaurante = ({
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
-          source={{uri}}
+          source={{uri: logoUrl}}
           resizeMode={Image.resizeMode.contain} />
       </View>
       <View style={styles.infoContainer}>
@@ -188,7 +188,7 @@ Restaurante.propTypes =  {
   minTime: PropTypes.number,
   maxTime: PropTypes.number,
   distance: PropTypes.number,
-  uri: PropTypes.string,
+  logoUrl: PropTypes.string,
   name: PropTypes.string,
   category: PropTypes.string,
   rating: PropTypes.number
