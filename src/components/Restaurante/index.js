@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flex: 5
   },
-  ratingContainer: {
+  notaContainer: {
     flex: 1,
     //backgroundColor: '#ada',
     flexDirection: 'row',
@@ -56,12 +56,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black'
   },
-  category: {
+  categoria: {
     fontSize: 10,
     fontWeight: '100',
     color: 'gray'
   },
-  ratingNumber: {
+  notaNumber: {
     marginLeft: 5,
     color: 'orange'
   },
@@ -114,11 +114,10 @@ const Restaurante = ({
   maxTime,
   distance,
   logoUrl,
-  name,
-  category,
-  rating
+  nome,
+  categoria,
+  nota
 }) => {
-  console.log(minTime);
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -131,22 +130,22 @@ const Restaurante = ({
         <View style={styles.row1}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
-              {name}
+              {nome}
             </Text>
           </View>
-          <View style={styles.ratingContainer}>
+          <View style={styles.notaContainer}>
             <Icon
               name="md-star"
               color="orange"
               size={14} />
-            <Text style={styles.ratingNumber}>
-              {rating}
+            <Text style={styles.notaNumber}>
+              {nota}
             </Text>
           </View>
         </View>
         <View style={styles.row2}>
-          <Text style={styles.category}>
-            {category}
+          <Text style={styles.categoria}>
+            {categoria}
           </Text>
         </View>
         <View style={styles.row3}>
@@ -189,9 +188,9 @@ Restaurante.propTypes =  {
   maxTime: PropTypes.number,
   distance: PropTypes.number,
   logoUrl: PropTypes.string,
-  name: PropTypes.string,
-  category: PropTypes.string,
-  rating: PropTypes.number
+  nome: PropTypes.string,
+  categoria: PropTypes.string,
+  nota: PropTypes.number
 }
 export default Restaurante;
 /*

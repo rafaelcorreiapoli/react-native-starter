@@ -6,6 +6,7 @@ import Title from '@components/Title'
 import Link from '@components/Link'
 import Icon from 'react-native-vector-icons/Ionicons';
 import NavigationBar from 'react-native-navbar';
+import Meteor from 'react-native-meteor';
 const MK = require('react-native-material-kit');
 const {
   MKButton,
@@ -20,6 +21,12 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     alignItems: 'center',
     //backgroundColor: 'yellow'
+  },
+  errorContainer: {
+    flex: 1,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   formInputsContainer: {
     flex: 2.5,
@@ -104,7 +111,7 @@ const styles = StyleSheet.create({
     fontWeight: 'normal'
   },
   floatingLabelStyle: {
-    color: 'white',
+    color: 'black',
     fontSize: 10,
     fontWeight: '200',
   },
@@ -121,11 +128,18 @@ const styles = StyleSheet.create({
     flex: 1
   },
   signUpText: {
-    color: '#FFF',
+    color: '#db2528',
     textAlign: 'center',
     flex: 1,
     textDecorationLine: 'underline',
     marginLeft: 10
+  },
+  errorMessage: {
+    color: 'red',
+    padding: 10,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    borderRadius: 10
   },
   inputWithIcon: {
     //backgroundColor: 'red',
@@ -134,7 +148,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 })
-const TextfieldWithFloatingLabel = MKTextField.textfieldWithFloatingLabel()
+const EmailInput = MKTextField.textfieldWithFloatingLabel()
   .withPlaceholder('Username')
   .withStyle(styles.textInput)
   .withFloatingLabelFont({
@@ -142,11 +156,11 @@ const TextfieldWithFloatingLabel = MKTextField.textfieldWithFloatingLabel()
     fontSize: 10,
     fontWeight: '200'
   })
-  .withHighlightColor('#FFFFFF')
+  .withHighlightColor('#000')
   .withPlaceholderTextColor('#888888')
   .withTintColor('#555555') // underline color
   .withSelectionColor('red')
-  .withTextInputStyle({color: '#FFFFFF'})
+  .withTextInputStyle({color: '#000'})
   .build();
 
 const PasswordInput = mdl.Textfield.textfieldWithFloatingLabel()
@@ -157,27 +171,15 @@ const PasswordInput = mdl.Textfield.textfieldWithFloatingLabel()
     fontSize: 10,
     fontWeight: '200',
   })
-  .withHighlightColor('#FFFFFF')
+  .withHighlightColor('#000')
   .withPlaceholderTextColor('#888888')
   .withTintColor('#555555') // underline color
-  .withTextInputStyle({color: '#FFFFFF'})
+  .withTextInputStyle({color: '#000'})
   .withStyle(styles.textInput)
   .build();
 
 
-const SignInButton = MKButton.coloredButton()
-.withText("Sign In")
-.withBackgroundColor('#db2528')
-.withTextStyle({
-  fontFamily: 'Damascus',
-  color: 'white'
-})
-.withStyle(styles.signInButton)
-.withOnPress(
-  () => {
-  Actions.restaurantes()
-})
-.build();
+
 
 const myButton = (
   <Icon.Button name="ion-person-outline" backgroundColor="#3b5998" style={{flex: 1, borderRadius: 0}}>
@@ -207,48 +209,61 @@ const GooglePlusButton = MKButton.coloredButton()
 
 
 class LoginContainer extends Component<void, void, void> {
-  // static renderNavigationBar(props) {
-  //   const rightButtonConfig = {
-  //     title: 'Next',
-  //     handler: () => alert('hello!'),
-  //   };
-  //
-  //   const titleConfig = {
-  //     title: 'Hello, world',
-  //   };
-  //
-  //   return (
-  //       <View style={{flex: 1}}>
-  //         <NavigationBar
-  //           title={titleConfig}
-  //           rightButton={rightButtonConfig} />
-  //       </View>
-  //   );
-  // }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+  handleSignIn() {
+    const {email, password} = this.state;
+    Meteor.loginWithPassword(email, password, (err) => {
+      console.log(err)
+      if (!err || true) {
+        Actions.restaurantes();
+      } else {
+        this.setState({
+          error: err.reason
+        })
+      }
+    })
+  }
   render() {
+    const SignInButton = MKButton.coloredButton()
+    .withText("Sign In")
+    .withBackgroundColor('#db2528')
+    .withTextStyle({
+      fontFamily: 'Damascus',
+      color: 'white'
+    })
+    .withStyle(styles.signInButton)
+    .withOnPress(this.handleSignIn.bind(this))
+    .build();
 
     return (
       <Container>
         <View style={styles.titleContainer}>
           <Image source={require('@assets/img/logo.png')} style={styles.logo} resizeMode={Image.resizeMode.contain}/>
         </View>
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorMessage}>
+            {(this.state.error) ? this.state.error : ''}
+          </Text>
+        </View>
         <View style={styles.formInputsContainer}>
           <View style={styles.inputWithIcon}>
             <Icon name="ios-person-outline" color="#888" size={25} style={{flex: .1, marginTop: 15, marginRight: 10}}/>
-            <TextfieldWithFloatingLabel style={{flex: 1}}/>
+            <EmailInput style={{flex: 1}} onChangeText={(email) => {this.setState({email})}} />
           </View>
           <View style={[styles.inputWithIcon, {marginTop: 5}]}>
             <Icon name="ios-unlock-outline" color="#888" size={25} style={{flex: .1, marginTop: 15, marginRight: 10}}/>
-            <PasswordInput style={{flex: 1}}/>
+            <PasswordInput style={{flex: 1}} onChangeText={(password) => {this.setState({password})}}/>
           </View>
 
+
           <SignInButton />
-          {
-          /*
-          <PasswordInput />
-          <SignInButton />
-          */
-          }
         </View>
         <View style={styles.dividerContainer}>
           <View style={styles.dividerItems}>
