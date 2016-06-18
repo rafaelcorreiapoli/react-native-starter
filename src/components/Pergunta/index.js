@@ -1,16 +1,10 @@
-import React, { Element, PropTypes } from 'react'
-import { View, Image, Text, StyleSheet, ListView} from 'react-native'
+import React, { Component, PropTypes } from 'react'
+import { View, Text, StyleSheet} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
-import {
-  MKButton,
-  MKColor,
-  MKIconToggle,
-  getTheme,
-  MKTextField,
-  MKCheckbox,
-  MKSlider,
-  MKRadioButton
-} from 'react-native-material-kit';
+import TextWidget from '@widgets/TextWidget'
+import SelectWidget from '@widgets/SelectWidget'
+import CheckboxWidget from '@widgets/CheckboxWidget'
+import SliderWidget from '@widgets/SliderWidget'
 
 const TEXT = 0;
 const CHECKBOX = 1;
@@ -19,99 +13,75 @@ const RATING = 3;
 
 const styles = StyleSheet.create({
   container: {
-    //backgroundColor: 'blue',
     flex: 1,
     alignSelf: 'stretch',
     flexDirection: 'column',
-    padding: 8
+    padding: 8,
+    marginBottom: 10
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   titulo: {
-    flex: 1
-  },
-  textField: {
-    flex: 1
-  },
-  slider: {
-    flex: 1
-  },
-  checkboxContainer: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center'
+    fontSize:10,
+    color: 'black'
   },
-  radioContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center'
-  }
+  number: {
+    fontSize: 24,
+    color: '#d3d3d3',
+    marginRight: 10,
+    marginLeft: 5
+  },
 })
 
-const Pergunta = ({
-  titulo,
-  tipo,
-  opcoes
-}) => {
-  const renderText = () => (
-    <MKTextField style={styles.textField} />
-  )
+class Pergunta extends Component {
+  constructor(props) {
+    super(props)
 
-  const renderCheckbox = (opcoes = []) => (
-    opcoes.map((opcao, i) => (
-      <View key={i} style={styles.checkboxContainer}>
-        <MKCheckbox
-          value={opcao.valor}
-        />
-        <Text>{opcao.texto}</Text>
-      </View>
-    ))
-  )
-
-  const renderSelect = (opcoes = []) => {
-    const radioGroup = new MKRadioButton.Group();
-    return opcoes.map((opcao, i) => (
-      <View key={i} style={styles.radioContainer}>
-        <MKRadioButton
-          checked={!i}
-          group={radioGroup}
-        />
-        <Text>{opcao.texto}</Text>
-      </View>
-    ))
-  }
-
-
-  const renderRating = () => (
-    <MKSlider
-      min={10}
-      max={100}
-      value={25}
-      style={styles.slider}
-    />
-  )
-
-  const renderWidget = () => {
-    switch(tipo) {
-      case TEXT:
-      return renderText()
-      case CHECKBOX:
-      return renderCheckbox(opcoes)
-      case SELECT:
-      return renderSelect(opcoes)
-      case RATING:
-      return renderRating()
-      default:
-      <Text>Unknown</Text>
+    this.state = {
+      respostas: []
     }
+    this.handleChangeValue = this.handleChangeValue.bind(this)
   }
-  return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>
-        {titulo}
-      </Text>
-      {renderWidget()}
-    </View>
-  )
+  handleChangeValue(val) {
+    const { onChange } = this.props
+    onChange(val)
+  }
+  render() {
+    const {
+      titulo,
+      tipo,
+      opcoes,
+      indice
+    } = this.props
+    return (
+      <View style={styles.container}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.number}>
+            {indice}
+          </Text>
+          <Text style={styles.titulo}>
+            {titulo}
+          </Text>
+        </View>
+        {(() => {
+          switch (tipo) {
+            case TEXT:     return <TextWidget onChange={this.handleChangeValue} />;
+            case CHECKBOX: return <CheckboxWidget opcoes={opcoes} onChange={this.handleChangeValue}/>;
+            case SELECT:   return <SelectWidget onChange={this.handleChangeValue} opcoes={opcoes} />;
+            case RATING:   return <SliderWidget onChange={this.handleChangeValue}/>;
+            default:       return <TextWidget />;
+          }
+        })()}
+      </View>
+    )
+  }
 }
 
+Pergunta.propTypes = {
+  onChange: PropTypes.func
+}
 
 export default Pergunta;

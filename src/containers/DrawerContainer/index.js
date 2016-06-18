@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import Drawer from 'react-native-drawer'
 import { DefaultRenderer } from 'react-native-router-flux';
-import {  StyleSheet} from 'react-native'
+import {  StyleSheet, StatusBar} from 'react-native'
 
 import SideMenu from '@components/SideMenu';
 
@@ -44,6 +44,10 @@ class DrawerContainer extends Component {
             }
           })
         }>
+        <StatusBar
+        backgroundColor="#d32f2f"
+        barStyle="light-content"
+      />
         <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate} />
       </Drawer>
     );

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     left: 0
   },
   navbar: {
-    backgroundColor: '#db2528'
+    backgroundColor: '#F44336'
   }
 })
 class MenuButton extends Component {

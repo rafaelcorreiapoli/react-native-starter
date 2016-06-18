@@ -5,22 +5,21 @@ import {
   MKButton,
   MKColor,
   MKIconToggle,
-  getTheme,
 } from 'react-native-material-kit';
 
-const theme = getTheme();
 
 const styles = StyleSheet.create({
   container: {
-    //backgroundColor: 'blue',
+    backgroundColor: 'white',
     alignSelf: 'stretch',
-    margin: 10,
+    //margin: 10,
+    marginBottom: 15,
     borderColor: '#eee',
     borderWidth: 0.5
   },
   headerContainer: {
     //backgroundColor: 'green',
-    height: 100,
+    height: 80,
     borderBottomWidth: 0.5,
     borderColor: '#eee',
   },
@@ -32,6 +31,14 @@ const styles = StyleSheet.create({
   image: {
     flex: 1
   },
+  logo: {
+    position: 'absolute',
+    top: 5,
+    left: 5,
+    height: 30,
+    width: 30,
+    opacity: 0.5
+  },
   titleContainer: {
     //backgroundColor: 'rgba(0,0,0,0.75)',
     position:'absolute',
@@ -41,21 +48,46 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start'
   },
-  titleText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    margin: 10,
-    color: 'black'
-  },
   descricaoText: {
-    fontSize: 10,
-    marginBottom: 10
+    fontSize: 8,
+    fontWeight: '100',
+    color: '#727272',
+    //marginBottom: 10
   },
+  titleText: {
+    flex: 1,
+    fontSize: 10,
+    marginBottom: 5,
+    color: '#212121',
+  },
+  button: {
+    borderRadius: 0,
+    height: 30
+  },
+  titleContainer: {
+    flexDirection: 'row'
+  },
+  tempoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end'
+  },
+  iconTempo: {
+    marginRight: 5,
+    color: '#727272'
+  },
+  tempoText: {
+    fontSize: 10,
+    textAlignVertical: 'center',
+    color: '#727272'
+  }
 });
 
 const BotaoResponder = MKButton.coloredButton()
 .withText("Eu quero!")
-.withBackgroundColor('#13A812')
+.withBackgroundColor('#4CAF50')
+.withStyle(styles.button)
 .build();
 
 const Promocao = ({
@@ -65,7 +97,9 @@ const Promocao = ({
   descricao,
   imagemUrl,
   restauranteId,
-  onClickResponder
+  onClickResponder,
+  logoUrl,
+  tempo
 }) => {
   console.log(onClickResponder)
   return (
@@ -76,15 +110,23 @@ const Promocao = ({
           style={styles.image}
           source={{uri: imagemUrl}}
           resizeMode={Image.resizeMode.contain} />
-        <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>{nome}</Text>
-        </View>
+        <Image
+          style={styles.logo}
+          source={{uri: logoUrl}}
+          resizeMode={Image.resizeMode.contain} />
       </View>
 
       <View style={styles.infoContainer}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleText}>{nome}</Text>
+          <View style={styles.tempoContainer}>
+            <Icon name="ios-clock-outline" size={14} style={styles.iconTempo}/>
+            <Text style={styles.tempoText}>5 min</Text>
+          </View>
+        </View>
         <Text style={styles.descricaoText}>{descricao}</Text>
-        <BotaoResponder onPress={() => {onClickResponder(_id, nome)}}/>
       </View>
+      <BotaoResponder onPress={() => {onClickResponder(_id, nome)}}/>
     </View>
   )
 }
@@ -94,6 +136,8 @@ Promocao.propTypes =  {
   descricao: PropTypes.string,
   imagemUrl: PropTypes.string,
   restauranteId: PropTypes.string,
-  onClickResponder: PropTypes.func
+  onClickResponder: PropTypes.func,
+  tempo: PropTypes.number,
+  logoUrl: PropTypes.string
 }
 export default Promocao;

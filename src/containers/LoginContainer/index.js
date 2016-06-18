@@ -16,6 +16,10 @@ const {
 } = MK;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor:'#F44336'
+  },
   titleContainer: {
     flex: 2.5,
     alignSelf: 'stretch',
@@ -78,13 +82,13 @@ const styles = StyleSheet.create({
   dividerText: {
     flex: 1,
     //  backgroundColor: '#da1223',
-    color: '#333',
+    color: '#fff',
     textAlign: 'center',
     fontStyle: 'italic'
   },
   dividerRule: {
     flex: 4,
-    backgroundColor: '#444',
+    backgroundColor: '#fff',
     height: .5,
     marginLeft: 10,
     marginRight: 10
@@ -128,7 +132,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   signUpText: {
-    color: '#db2528',
+    color: 'white',
     textAlign: 'center',
     flex: 1,
     textDecorationLine: 'underline',
@@ -152,29 +156,29 @@ const EmailInput = MKTextField.textfieldWithFloatingLabel()
   .withPlaceholder('Username')
   .withStyle(styles.textInput)
   .withFloatingLabelFont({
-    color: '#888888',
+    color: '#FFF',
     fontSize: 10,
     fontWeight: '200'
   })
-  .withHighlightColor('#000')
-  .withPlaceholderTextColor('#888888')
-  .withTintColor('#555555') // underline color
+  .withHighlightColor('#FFF')
+  .withPlaceholderTextColor('#FFF')
+  .withTintColor('#DDD') // underline color
   .withSelectionColor('red')
-  .withTextInputStyle({color: '#000'})
+  .withTextInputStyle({color: '#FFF'})
   .build();
 
 const PasswordInput = mdl.Textfield.textfieldWithFloatingLabel()
   .withPassword(true)
   .withPlaceholder('Password')
   .withFloatingLabelFont({
-    color: '#888888',
+    color: '#FFF',
     fontSize: 10,
     fontWeight: '200',
   })
-  .withHighlightColor('#000')
-  .withPlaceholderTextColor('#888888')
-  .withTintColor('#555555') // underline color
-  .withTextInputStyle({color: '#000'})
+  .withHighlightColor('#FFF')
+  .withPlaceholderTextColor('#FFF')
+  .withTintColor('#DDD') // underline color
+  .withTextInputStyle({color: '#FFF'})
   .withStyle(styles.textInput)
   .build();
 
@@ -233,7 +237,7 @@ class LoginContainer extends Component<void, void, void> {
   render() {
     const SignInButton = MKButton.coloredButton()
     .withText("Sign In")
-    .withBackgroundColor('#db2528')
+    .withBackgroundColor('#D32F2F')
     .withTextStyle({
       fontFamily: 'Damascus',
       color: 'white'
@@ -243,22 +247,26 @@ class LoginContainer extends Component<void, void, void> {
     .build();
 
     return (
-      <Container>
+      <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Image source={require('@assets/img/logo.png')} style={styles.logo} resizeMode={Image.resizeMode.contain}/>
         </View>
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorMessage}>
-            {(this.state.error) ? this.state.error : ''}
-          </Text>
-        </View>
+        { this.state.error ?
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorMessage}>
+              {this.state.error}
+            </Text>
+          </View>
+          : null
+        }
+
         <View style={styles.formInputsContainer}>
           <View style={styles.inputWithIcon}>
-            <Icon name="ios-person-outline" color="#888" size={25} style={{flex: .1, marginTop: 15, marginRight: 10}}/>
+            <Icon name="ios-person-outline" color="#FFF" size={25} style={{flex: .1, marginTop: 15, marginRight: 10}}/>
             <EmailInput style={{flex: 1}} onChangeText={(email) => {this.setState({email})}} />
           </View>
           <View style={[styles.inputWithIcon, {marginTop: 5}]}>
-            <Icon name="ios-unlock-outline" color="#888" size={25} style={{flex: .1, marginTop: 15, marginRight: 10}}/>
+            <Icon name="ios-unlock-outline" color="#FFF" size={25} style={{flex: .1, marginTop: 15, marginRight: 10}}/>
             <PasswordInput style={{flex: 1}} onChangeText={(password) => {this.setState({password})}}/>
           </View>
 
@@ -299,7 +307,7 @@ class LoginContainer extends Component<void, void, void> {
           </Text>
           </View>
         </View>
-      </Container>
+      </View>
     )
   }
 }

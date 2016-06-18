@@ -1,5 +1,5 @@
-import React, { Element, PropTypes } from 'react'
-import { View, Image, Text, StyleSheet, ListView} from 'react-native'
+import React, { Component, PropTypes } from 'react'
+import { View, StyleSheet, ListView} from 'react-native'
 import Pergunta from '@components/Pergunta'
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
@@ -15,29 +15,59 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listView: {
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+    backgroundColor: '#eee'
+  },
+  button: {
+    margin: 10
   }
 })
+const BotaoEnviar = MKButton.coloredButton()
+.withText("Enviar!")
+.withBackgroundColor('#4CAF50')
+.withStyle(styles.button)
+.build();
 
-const Perguntas = ({
-  perguntas
-}) => {
-  const renderRow = (pergunta) => {
+
+export default class Perguntas extends Component {
+  constructor(props) {
+    super(props)
+
+    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.renderRow = this.renderRow.bind(this)
+  }
+
+
+  renderRow(pergunta, j, i) {
+    const { onChange } = this.props
+    const indice = Number(i) + 1
+    const perguntaId = pergunta._id
+
     return (
-      <Pergunta key={pergunta._id} {...pergunta} />
+      <Pergunta
+        key={perguntaId}
+        indice={indice}
+        onChange={(val) => onChange(perguntaId, val)}
+        {...pergunta} />
     )
   }
-  const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-  const dataSource = ds.cloneWithRows(perguntas);
-  return (
-    <View style={styles.container}>
-      <ListView
-        style={styles.listView}
-        enableEmptySections={true}
-        dataSource={dataSource}
-        renderRow={renderRow}
-        />
-    </View>
-  )
+
+  render() {
+    const { perguntas } = this.props
+    const dataSource = this.ds.cloneWithRows(perguntas);
+    return (
+      <View style={styles.container}>
+        <ListView
+          style={styles.listView}
+          enableEmptySections={true}
+          dataSource={dataSource}
+          renderRow={this.renderRow}
+          renderFooter={() => <BotaoEnviar />}
+          />
+      </View>
+    )
+  }
 }
+
+
 export default Perguntas;

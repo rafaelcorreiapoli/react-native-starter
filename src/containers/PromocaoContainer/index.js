@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 44,
     flex: 1,
-    //backgroundColor: 'yellow',
+    //backgroundColor: 'yellow',f
   },
   innerContainer: {
     flex: 1
@@ -65,13 +65,25 @@ const styles = StyleSheet.create({
 const FlatButton = MKButton.flatButton()
   .build();
 
+
 class QuestionarioContainer extends Component<void, void, void> {
   constructor(props) {
     super(props)
+    this.state = {
+      respostas: {}
+    }
+    this.handleOnChangeRespostas = this.handleOnChangeRespostas.bind(this)
+  }
+  handleOnChangeRespostas(perguntaId, resposta) {
+    const { respostas } = this.state
+
+    respostas[perguntaId] = resposta
+    console.log(perguntaId, resposta)
+    this.setState({respostas})
+    console.log(this.state)
   }
   render() {
     const { promocao, questionario, perguntas, promocaoReady} = this.props
-    console.log(perguntas)
     return (
       <View style={styles.container}>
         {promocaoReady ?
@@ -81,7 +93,7 @@ class QuestionarioContainer extends Component<void, void, void> {
               <Text style={styles.promocaoNome}>{promocao.nome}</Text>
             </View>
             <View style={styles.questionarioContainer}>
-                <Perguntas perguntas={perguntas} />
+                <Perguntas perguntas={perguntas} onChange={this.handleOnChangeRespostas}/>
             </View>
           </View>
         :

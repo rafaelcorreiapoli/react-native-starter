@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     marginTop: 44,
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#eee'
   },
   spinner: {
 
@@ -30,13 +31,12 @@ class PromocoesContainer extends Component<void, void, void> {
   }
   onClickResponder(promocaoId, nome) {
     Actions.promocao({
-      promocaoId,
-      title: nome
+      promocaoId
     })
   }
   renderPromocao(promocao) {
     return (
-      <Promocao key={promocao._id} {...promocao} onClickResponder={this.onClickResponder} />
+      <Promocao key={promocao._id} {...promocao}  onClickResponder={this.onClickResponder} />
     )
   }
   renderLoading() {
@@ -51,25 +51,43 @@ class PromocoesContainer extends Component<void, void, void> {
     return (
       <View style={styles.container}>
         {promocoesReady ?
-        <ListView
-          style={styles.listView}
-          enableEmptySections={true}
-          dataSource={dataSource}
-          renderRow={this.renderPromocao.bind(this)}
-          />
-        : this.renderLoading()}
-      </View>
-    )
+          <ListView
+            style={styles.listView}
+            enableEmptySections={true}
+            dataSource={dataSource}
+            renderRow={this.renderPromocao.bind(this)}
+            />
+          : this.renderLoading()}
+        </View>
+      )
+    }
   }
-}
 
 
-export default createContainer(params=>{
-  const { restauranteId } = params
-  const handle = Meteor.subscribe('promocoes.porRestaurante', {restauranteId});
+  export default createContainer(params => {
+    const { restauranteId } = params
+    let promocoes = []
+    let handle
+    if (restauranteId) {
+      handle = Meteor.subscribe('promocoes.porRestaurante', {restauranteId});
+      promocoes = Meteor.collection('promocoes').find({ restauranteId})
+    } else {
+      handle = Meteor.subscribe('promocoes');
+      promocoes = Meteor.collection('promocoes').find()
+    }
 
-  return {
-    promocoesReady: handle.ready(),
-    promocoes: Meteor.collection('promocoes').find({ restauranteId})
-  };
-}, PromocoesContainer)
+    const mappedPromocoes = promocoes.map((promocao) => {
+      const { restauranteId, questionarioId } = promocao
+      let restaurante = restauranteId && Meteor.collection('restaurantes').findOne(restauranteId)
+      let questionario = questionarioId && Meteor.collection('questionarios').findOne(questionarioId)
+      return {
+        ...promocao,
+        logoUrl: restaurante.logoUrl,
+        tempoMedio: questionario && questionario.tempoMedio || 0
+      }
+    })
+    return {
+      promocoesReady: handle.ready(),
+      promocoes: mappedPromocoes
+    };
+  }, PromocoesContainer)

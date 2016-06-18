@@ -45,65 +45,54 @@ const styles = StyleSheet.create({
   titleContainer: {
     flex: 5
   },
-  notaContainer: {
+  numeroPromocoesContainer: {
     flex: 1,
     //backgroundColor: '#ada',
-    flexDirection: 'row',
-    alignItems: 'center'
-
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   title: {
     fontSize: 16,
-    color: 'black'
+    color: '#212121'
   },
   categoria: {
     fontSize: 10,
-    fontWeight: '100',
-    color: 'gray'
+    fontWeight: '200',
+    color: '#727272'
   },
-  notaNumber: {
-    marginLeft: 5,
-    color: 'orange'
+  promocoesNumber: {
+    flex: 1,
+    fontSize: 15,
+    textAlignVertical: 'center',
+    color: 'white',
+    //backgroundColor: 'red'
   },
-  timeContainer: {
-    flex: 1.5,
-    flexDirection: 'row',
-    alignItems: 'center'
+  promocoesText: {
+    fontSize: 8,
+    color: '#727272',
+  },
+  badge: {
+    backgroundColor: '#4CAF50',
+    width: 30,
+    height: 30,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 5
   },
   distanceContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center'
   },
-  priceContainer: {
-    flex: 0.5,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
   image: {
     flex: 1
-  },
-  time: {
-    fontSize: 10,
-    marginLeft: 5,
-    color: 'gray'
   },
   distance: {
     fontSize: 10,
     marginLeft: 5,
-    color: 'gray'
+    color: '#727272'
   },
-  price: {
-    fontSize: 10,
-    marginLeft: 5,
-    color: 'gray'
-  },
-  divider: {
-    flex: 0.01,
-    marginLeft: 10,
-    marginRight: 10,
-    backgroundColor: '#dfdfdf'
-  }
 });
 
 const Restaurante = ({
@@ -116,7 +105,7 @@ const Restaurante = ({
   logoUrl,
   nome,
   categoria,
-  nota
+  numeroPromocoes
 }) => {
   return (
     <View style={styles.container}>
@@ -133,15 +122,6 @@ const Restaurante = ({
               {nome}
             </Text>
           </View>
-          <View style={styles.notaContainer}>
-            <Icon
-              name="md-star"
-              color="orange"
-              size={14} />
-            <Text style={styles.notaNumber}>
-              {nota}
-            </Text>
-          </View>
         </View>
         <View style={styles.row2}>
           <Text style={styles.categoria}>
@@ -149,7 +129,7 @@ const Restaurante = ({
           </Text>
         </View>
         <View style={styles.row3}>
-          <View style={styles.timeContainer}>
+          {/*<View style={styles.timeContainer}>
             <Icon
               name="ios-clock-outline"
               color="gray"
@@ -157,25 +137,35 @@ const Restaurante = ({
             <Text style={styles.time}>
               {minTime} - {maxTime} min
             </Text>
-          </View>
+          </View>*/}
           <View style={styles.distanceContainer}>
             <Icon
               name="ios-pin-outline"
               color="gray"
               size={14} />
             <Text style={styles.distance}>
-              {distance} km
+              {distance || 5} km
             </Text>
           </View>
-          <View style={styles.priceContainer}>
+          {/*<View style={styles.priceContainer}>
             <Text style={styles.price}>
               $$$$
             </Text>
             <Text style={[styles.price, {color: '#bbb', marginLeft: 0}]}>
               $
             </Text>
-          </View>
+          </View>*/}
         </View>
+      </View>
+      <View style={styles.numeroPromocoesContainer}>
+        <View style={styles.badge}>
+          <Text style={styles.promocoesNumber}>
+            {numeroPromocoes}
+          </Text>
+        </View>
+        <Text style={styles.promocoesText}>
+          promoções
+        </Text>
       </View>
     </View>
   )
@@ -190,7 +180,7 @@ Restaurante.propTypes =  {
   logoUrl: PropTypes.string,
   nome: PropTypes.string,
   categoria: PropTypes.string,
-  nota: PropTypes.number
+  numeroPromocoes: PropTypes.number
 }
 export default Restaurante;
 /*

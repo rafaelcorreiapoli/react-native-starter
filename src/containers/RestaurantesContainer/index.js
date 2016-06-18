@@ -46,7 +46,7 @@ class RestaurantesContainer extends Component<void, void, void> {
   }
   renderSeparator(sectionID, rowID) {
     return (
-      <View key={v4()} style={{height: 1, backgroundColor: '#dedede'}} />
+      <View key={v4()} style={{height: 0.5, backgroundColor: '#eee'}} />
     )
   }
   render() {
