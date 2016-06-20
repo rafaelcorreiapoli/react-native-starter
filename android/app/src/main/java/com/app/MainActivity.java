@@ -1,6 +1,8 @@
 package com.app;
 
 import com.facebook.react.ReactActivity;
+import com.smixx.reactnativeicons.ReactNativeIcons;
+import com.eguma.barcodescanner.BarcodeScannerPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -38,6 +40,8 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new ReactNativeIcons(),
+            new BarcodeScannerPackage(),
             new RNSpinkitPackage(),
             new ReactMaterialKitPackage(),
             new VectorIconsPackage()

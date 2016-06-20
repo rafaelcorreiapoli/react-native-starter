@@ -225,7 +225,7 @@ class LoginContainer extends Component<void, void, void> {
     const {email, password} = this.state;
     Meteor.loginWithPassword(email, password, (err) => {
       console.log(err)
-      if (!err || true) {
+      if (!err) {
         Actions.restaurantes();
       } else {
         this.setState({

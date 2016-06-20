@@ -7,9 +7,12 @@ import Container from '@components/Container'
 import Title from '@components/Title'
 import Restaurante from '@components/Restaurante';
 import Perguntas from '@components/Perguntas';
+import PromocaoHeader from '@components/PromocaoHeader';
+import Loading from '@components/Loading';
+import QuestionarioContainer from '@containers/QuestionarioContainer'
 import { v4 } from 'node-uuid';
 import Meteor, { createContainer } from 'react-native-meteor';
-import Spinner from 'react-native-spinkit'
+
 const MK = require('react-native-material-kit');
 const {
   MKButton,
@@ -20,86 +23,41 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 44,
     flex: 1,
-    //backgroundColor: 'yellow',f
   },
   innerContainer: {
     flex: 1
   },
-  headerContainer: {
-    height: 80
-  },
-  questionarioContainer: {
-    flex: 1
-  },
+
   listView: {
     alignSelf: 'stretch'
   },
-  spinnerContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    flex: 1
-  },
-  promocaoNome: {
-    fontSize: 26,
-    color: 'white',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.6)',
-    textShadowOffset: {
-      height: 1,
-      width: 0
-    },
-    textShadowRadius: 3
-  }
 })
 
 const FlatButton = MKButton.flatButton()
   .build();
 
 
-class QuestionarioContainer extends Component<void, void, void> {
+class PromocaoContainer extends Component<void, void, void> {
   constructor(props) {
     super(props)
-    this.state = {
-      respostas: {}
-    }
-    this.handleOnChangeRespostas = this.handleOnChangeRespostas.bind(this)
   }
-  handleOnChangeRespostas(perguntaId, resposta) {
-    const { respostas } = this.state
 
-    respostas[perguntaId] = resposta
-    console.log(perguntaId, resposta)
-    this.setState({respostas})
-    console.log(this.state)
-  }
   render() {
-    const { promocao, questionario, perguntas, promocaoReady} = this.props
+    const { promocao, promocaoReady} = this.props
+    const questionarioId = promocao.questionarioId
+
     return (
       <View style={styles.container}>
         {promocaoReady ?
           <View style={styles.innerContainer}>
-            <View style={styles.headerContainer}>
-              <Image source={{uri: promocao.imagemUrl}} resizeMode={Image.resizeMode.contain} style={styles.image} />
-              <Text style={styles.promocaoNome}>{promocao.nome}</Text>
-            </View>
-            <View style={styles.questionarioContainer}>
-                <Perguntas perguntas={perguntas} onChange={this.handleOnChangeRespostas}/>
-            </View>
+            <PromocaoHeader imagemUrl={promocao.imagemUrl} nome={promocao.nome } />
+            <QuestionarioContainer
+              questionarioId={questionarioId}
+              promocaoId={promocao._id}
+              />
           </View>
         :
-        <View style={styles.spinnerContainer}>
-          <Spinner isVisible={true} type={'FadingCircleAlt'} />
-        </View>}
+        <Loading />}
       </View>
     )
   }
@@ -108,19 +66,12 @@ class QuestionarioContainer extends Component<void, void, void> {
 export default createContainer( params => {
   const { promocaoId } = params;
   const handle = Meteor.subscribe('promocoes.single', {id: promocaoId})
-
   const promocao = Meteor.collection('promocoes').findOne(promocaoId)
-  const { questionarioId } = promocao
-  const questionario = Meteor.collection('questionarios').findOne(questionarioId)
-  const perguntas = Meteor.collection('perguntas').find({questionarioId}, {
-    sort: {
-      ordem: 1
-    }
-  })
+
   return {
     promocaoReady: handle.ready(),
     promocao,
-    questionario,
-    perguntas
+    //questionario,
+    //perguntas
   };
-}, QuestionarioContainer)
+}, PromocaoContainer)

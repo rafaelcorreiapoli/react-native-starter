@@ -99,9 +99,8 @@ const Promocao = ({
   restauranteId,
   onClickResponder,
   logoUrl,
-  tempo
+  tempoMedio
 }) => {
-  console.log(onClickResponder)
   return (
     <View style={styles.container}>
 
@@ -121,7 +120,7 @@ const Promocao = ({
           <Text style={styles.titleText}>{nome}</Text>
           <View style={styles.tempoContainer}>
             <Icon name="ios-clock-outline" size={14} style={styles.iconTempo}/>
-            <Text style={styles.tempoText}>5 min</Text>
+            <Text style={styles.tempoText}>{tempoMedio} min</Text>
           </View>
         </View>
         <Text style={styles.descricaoText}>{descricao}</Text>
@@ -137,7 +136,7 @@ Promocao.propTypes =  {
   imagemUrl: PropTypes.string,
   restauranteId: PropTypes.string,
   onClickResponder: PropTypes.func,
-  tempo: PropTypes.number,
+  tempoMedio: PropTypes.number,
   logoUrl: PropTypes.string
 }
 export default Promocao;

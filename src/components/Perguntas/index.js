@@ -22,11 +22,6 @@ const styles = StyleSheet.create({
     margin: 10
   }
 })
-const BotaoEnviar = MKButton.coloredButton()
-.withText("Enviar!")
-.withBackgroundColor('#4CAF50')
-.withStyle(styles.button)
-.build();
 
 
 export default class Perguntas extends Component {
@@ -36,7 +31,6 @@ export default class Perguntas extends Component {
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.renderRow = this.renderRow.bind(this)
   }
-
 
   renderRow(pergunta, j, i) {
     const { onChange } = this.props
@@ -53,7 +47,7 @@ export default class Perguntas extends Component {
   }
 
   render() {
-    const { perguntas } = this.props
+    const { perguntas, renderFooter } = this.props
     const dataSource = this.ds.cloneWithRows(perguntas);
     return (
       <View style={styles.container}>
@@ -62,7 +56,7 @@ export default class Perguntas extends Component {
           enableEmptySections={true}
           dataSource={dataSource}
           renderRow={this.renderRow}
-          renderFooter={() => <BotaoEnviar />}
+          renderFooter={renderFooter}
           />
       </View>
     )

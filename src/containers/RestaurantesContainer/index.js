@@ -32,7 +32,7 @@ class RestaurantesContainer extends Component<void, void, void> {
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   }
   handleItemClick({_id, nome}) {
-    Actions.promocoes({
+    Actions.restaurante({
       restauranteId: _id,
       title: nome
     })
@@ -67,7 +67,7 @@ class RestaurantesContainer extends Component<void, void, void> {
   }
 }
 
-export default createContainer(params=>{
+export default createContainer(params => {
   const handle = Meteor.subscribe('restaurantes');
 
   return {
